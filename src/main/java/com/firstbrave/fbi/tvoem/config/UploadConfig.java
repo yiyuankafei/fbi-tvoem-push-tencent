@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "upload")
 @Data
-public class UploadPartConfig {
+public class UploadConfig {
 
     private String appid;
 
@@ -15,10 +15,14 @@ public class UploadPartConfig {
 
     private String domain;
 
+    private String operator;
+
     private Integer partNumber;
 
-    private Integer partSize;
+    private Long partSize;
 
     private Integer partConcurrent;
+
+    private UploadMethodConfig method;
 
 }
