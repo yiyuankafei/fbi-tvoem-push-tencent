@@ -5,8 +5,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 @Slf4j
 public class TvoemApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
@@ -18,4 +20,5 @@ public class TvoemApplication extends SpringBootServletInitializer implements Co
     public void run(String... args) {
         log.info("tvoemApplication启动成功");
     }
+
 }

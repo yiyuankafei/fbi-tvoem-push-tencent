@@ -5,14 +5,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "upload.part")
+@ConfigurationProperties(prefix = "upload")
 @Data
 public class UploadPartConfig {
 
-    private Integer number;
+    private String appid;
 
-    private Integer size;
+    private String encryptionKey;
 
-    private Integer concurrent;
+    private String domain;
+
+    private Integer partNumber;
+
+    private Integer partSize;
+
+    private Integer partConcurrent;
 
 }
