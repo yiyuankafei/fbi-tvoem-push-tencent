@@ -25,7 +25,7 @@ public class UploadService implements InitializingBean {
 
     private static String accessToken;
 
-    private ExecutorService threadPool = Executors.newFixedThreadPool(5);
+    private static ExecutorService threadPool;
 
     @Autowired
     UploadConfig uploadConfig;
@@ -49,8 +49,8 @@ public class UploadService implements InitializingBean {
     public Integer createAlbum() throws Exception {
         CreateAlbumRequest request = new CreateAlbumRequest();
         request.setAppid(uploadConfig.getAppid());
-        request.setOperator(uploadConfig.getOperator());
         request.setAccessToken(accessToken);
+        request.setOperator(uploadConfig.getOperator());
         CreateAlbumResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getMethod().getCreateAlbum(), CreateAlbumResponse.class);
         return result.getAlbumID();
     }
@@ -81,8 +81,7 @@ public class UploadService implements InitializingBean {
         Long partNumber = length % uploadConfig.getPartSize() == 0 ? length / uploadConfig.getPartSize() : length / uploadConfig.getPartSize() + 1;
         CountDownLatch countDownLatch = new CountDownLatch(partNumber.intValue());
         for (int i = 1; i <= partNumber; i++) {
-            int currentPart = i;
-            UploadThread thread = new UploadThread(filePath, mediumID, currentPart, countDownLatch);
+            UploadThread thread = new UploadThread(filePath, mediumID, i, countDownLatch);
             threadPool.submit(thread);
         }
         countDownLatch.await();
@@ -129,10 +128,10 @@ public class UploadService implements InitializingBean {
             try {
                 String requestUrl = uploadConfig.getDomain() + String.format(uploadConfig.getMethod().getUpload(),
                         uploadConfig.getAppid(), accessToken, mediumID, partNumber);
-                System.out.println("************************");
-                System.out.println(requestUrl);
                 HttpClientUtil.uploadPart(requestUrl, filePath, partNumber, uploadConfig.getPartSize(),
                         mediumID, uploadConfig.getAppid(), accessToken);
+            } catch (Exception e) {
+                log.error("上传分片失败，文件名:{}，分片编号:{}", filePath, partNumber, e);
             } finally {
                 latch.countDown();
             }
@@ -140,8 +139,9 @@ public class UploadService implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() {
-        //refreshToken();
+    public void afterPropertiesSet() throws Exception {
+        refreshToken();
+        threadPool = Executors.newFixedThreadPool(uploadConfig.getPartConcurrent());
         log.info("初始化accessToken：" + accessToken);
     }
 }

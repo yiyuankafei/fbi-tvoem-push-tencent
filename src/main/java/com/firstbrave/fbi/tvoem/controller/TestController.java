@@ -27,7 +27,7 @@ public class TestController {
     TestService testService;
 
     @RequestMapping("/config")
-    public String test() {
+    public String config() {
         return JSON.toJSONString(uploadPartConfig);
     }
 
@@ -53,12 +53,12 @@ public class TestController {
 
     @RequestMapping("/upload")
     public void upload() throws Exception {
-        String filePath = "C:\\Users\\Administrator\\Desktop\\新建文档 .txt";
-        uploadService.upload(filePath, 111);
+        String filePath = "C:\\Users\\Administrator\\Desktop\\新建文档.txt";
+        uploadService.upload(filePath, 12345678);
     }
 
-    @RequestMapping("/testSql")
-    public List<TestPo> testSql() throws Exception {
+    @RequestMapping("/test")
+    public List<TestPo> test() throws Exception {
         QueryWrapper<TestPo> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().gt(TestPo::getId, 1);
         List<TestPo> list = testService.list(queryWrapper);

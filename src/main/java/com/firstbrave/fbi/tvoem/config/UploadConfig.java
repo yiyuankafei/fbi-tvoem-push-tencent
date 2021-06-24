@@ -1,6 +1,5 @@
 package com.firstbrave.fbi.tvoem.config;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,6 @@ public class UploadConfig {
     private String encryptionKey;
     private String domain;
     private String operator;
-    private Integer partNumber;
     private Long partSize;
     private Integer partConcurrent;
     private UploadMethodConfig method;

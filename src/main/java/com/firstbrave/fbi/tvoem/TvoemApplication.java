@@ -18,7 +18,7 @@ public class TvoemApplication extends SpringBootServletInitializer implements Co
 
     @Override
     public void run(String... args) {
-        log.info("tvoemApplication启动成功");
+        log.info("tvoemApplication启动成功...");
     }
 
 }
