@@ -39,8 +39,8 @@ public class TestController {
     }
 
     @RequestMapping("/initUpload")
-    public Integer createAlbum(Integer size, String md5, Integer albumID) throws Exception {
-        return uploadService.initUpload(size, md5, albumID);
+    public Integer createAlbum(String fileName, Integer size, String md5, Integer albumID) throws Exception {
+        return uploadService.initUpload(fileName, size, md5, albumID);
     }
 
     @RequestMapping("/upload")

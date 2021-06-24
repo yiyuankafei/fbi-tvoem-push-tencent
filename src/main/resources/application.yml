@@ -7,7 +7,7 @@ spring:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
     url: jdbc:sqlserver://10.0.0.118:1433;DatabaseName=FBI-TVOEM
     username: sa
-    password: 000000
+    password: '000000'
 
 
 mybatis-plus:
@@ -21,7 +21,6 @@ upload:
   appid: test
   encryption-key: test
   domain: http://localhost:5002
-  #domain: https://mediumupload.qq.com
   operator: admin
   part-concurrent: 10
   part-size: 52428800

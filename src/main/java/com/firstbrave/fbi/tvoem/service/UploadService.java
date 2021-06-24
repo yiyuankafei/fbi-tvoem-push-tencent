@@ -59,13 +59,14 @@ public class UploadService implements InitializingBean {
      *
      * 初始化上传
      */
-    public Integer initUpload(Integer size, String md5, Integer albumID) throws Exception {
+    public Integer initUpload(String fileName, Integer fileSize, String md5, Integer albumID) throws Exception {
         InitUploadRequest request = new InitUploadRequest();
         request.setAppid(uploadConfig.getAppid());
         request.setAccessToken(accessToken);
         request.setOperator(uploadConfig.getOperator());
         request.setAlbumID(albumID);
-        request.setSize(size);
+        request.setFileName(fileName);
+        request.setSize(fileSize);
         request.setMd5(md5);
         InitUploadResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getUrl().getInitUpload(), InitUploadResponse.class);
         return result.getMediumID();
@@ -139,7 +140,7 @@ public class UploadService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        refreshToken();
+        //refreshToken();
         threadPool = Executors.newFixedThreadPool(uploadConfig.getPartConcurrent());
         log.info("初始化accessToken：" + accessToken);
     }

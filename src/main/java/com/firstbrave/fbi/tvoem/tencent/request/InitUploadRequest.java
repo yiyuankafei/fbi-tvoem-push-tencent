@@ -26,4 +26,9 @@ public class InitUploadRequest extends AuthedRequest {
      */
     private String operator;
 
+    /**
+     * 参数名
+     */
+    private String fileName;
+
 }
