@@ -140,7 +140,7 @@ public class UploadService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         refreshToken();
-        log.info("初始化accessToken：" + accessToken);
         threadPool = Executors.newFixedThreadPool(uploadConfig.getPartConcurrent());
+        log.info("初始化accessToken：" + accessToken);
     }
 }

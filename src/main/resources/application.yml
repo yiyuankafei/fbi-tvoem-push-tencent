@@ -1,0 +1,35 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: fbi-tvoem-push-tencent
+  datasource:
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://10.0.0.118:1433;DatabaseName=FBI-TVOEM
+    username: sa
+    password: 000000
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.firstbrave.fbi.tvoem.po
+
+upload:
+  appid: test
+  encryption-key: test
+  domain: http://localhost:5002
+  #domain: https://mediumupload.qq.com
+  operator: admin
+  part-concurrent: 10
+  part-size: 52428800
+  url:
+    access-token: /auth/getToken
+    create-album: /album/create
+    init-upload: /medium/initUpload
+    upload: /medium/uploadPart
+    upload-complete: /medium/complete
+    add-album: /album/autoLoadToMedia
+

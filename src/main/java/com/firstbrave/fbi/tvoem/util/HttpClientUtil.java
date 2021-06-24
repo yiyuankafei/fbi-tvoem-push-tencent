@@ -63,7 +63,6 @@ public class HttpClientUtil {
         multipartEntityBuilder.addPart("mediumID", new StringBody(String.valueOf(mediumID), ContentType.TEXT_PLAIN));
         multipartEntityBuilder.addPart("partNumber",new StringBody(String.valueOf(partNumber), ContentType.TEXT_PLAIN));
         multipartEntityBuilder.addPart("blockSize",new StringBody(String.valueOf(partBytes.length), ContentType.TEXT_PLAIN));
-
         HttpEntity entity = multipartEntityBuilder.build();
 
         HttpPost post = new HttpPost(url);
