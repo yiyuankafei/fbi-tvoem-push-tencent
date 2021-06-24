@@ -13,7 +13,7 @@ public class TokenRefreshTask{
     @Autowired
     UploadService tencentService;
 
-    @Scheduled(cron = "0 */1 * * * ? ")
+    @Scheduled(cron = "0 */2 * * * ? ")
     public void refreshToken() throws Exception {
         log.info("刷新token");
         tencentService.refreshToken();

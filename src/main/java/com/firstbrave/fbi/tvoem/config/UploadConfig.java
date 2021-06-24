@@ -15,6 +15,6 @@ public class UploadConfig {
     private String operator;
     private Long partSize;
     private Integer partConcurrent;
-    private UploadMethodConfig method;
+    private UploadUrlConfig url;
 
 }

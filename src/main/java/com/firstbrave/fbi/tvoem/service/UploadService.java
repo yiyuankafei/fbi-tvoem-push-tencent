@@ -38,7 +38,7 @@ public class UploadService implements InitializingBean {
         AccessTokenRequest request = new AccessTokenRequest();
         request.setAppid(uploadConfig.getAppid());
         request.setEncryptionKey(uploadConfig.getEncryptionKey());
-        AccessTokenResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getMethod().getAccessToken(), AccessTokenResponse.class);
+        AccessTokenResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getUrl().getAccessToken(), AccessTokenResponse.class);
         accessToken = result.getAccessToken();
     }
 
@@ -51,7 +51,7 @@ public class UploadService implements InitializingBean {
         request.setAppid(uploadConfig.getAppid());
         request.setAccessToken(accessToken);
         request.setOperator(uploadConfig.getOperator());
-        CreateAlbumResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getMethod().getCreateAlbum(), CreateAlbumResponse.class);
+        CreateAlbumResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getUrl().getCreateAlbum(), CreateAlbumResponse.class);
         return result.getAlbumID();
     }
 
@@ -67,7 +67,7 @@ public class UploadService implements InitializingBean {
         request.setAlbumID(albumID);
         request.setSize(size);
         request.setMd5(md5);
-        InitUploadResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getMethod().getInitUpload(), InitUploadResponse.class);
+        InitUploadResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getUrl().getInitUpload(), InitUploadResponse.class);
         return result.getMediumID();
     }
 
@@ -97,7 +97,7 @@ public class UploadService implements InitializingBean {
         request.setAppid(uploadConfig.getAppid());
         request.setAccessToken(accessToken);
         request.setMediumID(mediumID);
-        HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getMethod().getUploadComplete(), BaseResponse.class);
+        HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getUrl().getUploadComplete(), BaseResponse.class);
     }
 
     /**
@@ -108,7 +108,7 @@ public class UploadService implements InitializingBean {
         request.setAppid(uploadConfig.getAppid());
         request.setAccessToken(accessToken);
         request.setOperator(uploadConfig.getOperator());
-        HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getMethod().getAddAlbum(), BaseResponse.class);
+        HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getUrl().getAddAlbum(), BaseResponse.class);
     }
 
     @Data
@@ -126,7 +126,7 @@ public class UploadService implements InitializingBean {
         @Override
         public void run() {
             try {
-                String requestUrl = uploadConfig.getDomain() + String.format(uploadConfig.getMethod().getUpload(),
+                String requestUrl = uploadConfig.getDomain() + String.format(uploadConfig.getUrl().getUpload(),
                         uploadConfig.getAppid(), accessToken, mediumID, partNumber);
                 HttpClientUtil.uploadPart(requestUrl, filePath, partNumber, uploadConfig.getPartSize(),
                         mediumID, uploadConfig.getAppid(), accessToken);
@@ -141,7 +141,7 @@ public class UploadService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         refreshToken();
-        threadPool = Executors.newFixedThreadPool(uploadConfig.getPartConcurrent());
         log.info("初始化accessToken：" + accessToken);
+        threadPool = Executors.newFixedThreadPool(uploadConfig.getPartConcurrent());
     }
 }

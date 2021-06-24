@@ -3,7 +3,7 @@ package com.firstbrave.fbi.tvoem.config;
 import lombok.Data;
 
 @Data
-public class UploadMethodConfig {
+public class UploadUrlConfig {
 
     private String accessToken;
     private String createAlbum;
