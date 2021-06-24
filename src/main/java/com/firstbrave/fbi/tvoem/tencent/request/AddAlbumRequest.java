@@ -18,7 +18,7 @@ public class AddAlbumRequest extends AuthedRequest {
     /**
      * 专辑信息，详情如下，不传则不会入媒资
      */
-    private List<AlbumInfoBo> albumInfo;
+    private AlbumInfoBo albumInfo;
 
     /**
      * 上传者

@@ -26,9 +26,12 @@ public class TestController {
     @Autowired
     TestService testService;
 
-    @RequestMapping("/config")
-    public String config() {
-        return JSON.toJSONString(uploadPartConfig);
+    @RequestMapping("/test")
+    public List<TestPo> test() {
+        QueryWrapper<TestPo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().gt(TestPo::getId, 1);
+        List<TestPo> list = testService.list(queryWrapper);
+        return list;
     }
 
     @RequestMapping("/createAlbum")
@@ -41,6 +44,12 @@ public class TestController {
         return uploadService.initUpload(size, md5, albumID);
     }
 
+    @RequestMapping("/upload")
+    public void upload() throws Exception {
+        String filePath = "C:\\Users\\Administrator\\Desktop\\b21bb051f81986186425bf0bf098b57b8ad4e659.jpeg";
+        uploadService.upload(filePath, 12345678);
+    }
+
     @RequestMapping("/uploadComplete")
     public void uplpadComplete(Integer mediumID) throws Exception {
         uploadService.uplpadComplete(mediumID);
@@ -49,20 +58,6 @@ public class TestController {
     @RequestMapping("/addAlbum")
     public void addAlbum(@RequestBody AddAlbumRequest request) throws Exception {
         uploadService.addAlbum(request);
-    }
-
-    @RequestMapping("/upload")
-    public void upload() throws Exception {
-        String filePath = "C:\\Users\\Administrator\\Desktop\\新建文档.txt";
-        uploadService.upload(filePath, 12345678);
-    }
-
-    @RequestMapping("/test")
-    public List<TestPo> test() throws Exception {
-        QueryWrapper<TestPo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().gt(TestPo::getId, 1);
-        List<TestPo> list = testService.list(queryWrapper);
-        return list;
     }
 
 }

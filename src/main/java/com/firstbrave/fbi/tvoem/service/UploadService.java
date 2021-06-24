@@ -126,8 +126,7 @@ public class UploadService implements InitializingBean {
         @Override
         public void run() {
             try {
-                String requestUrl = uploadConfig.getDomain() + String.format(uploadConfig.getUrl().getUpload(),
-                        uploadConfig.getAppid(), accessToken, mediumID, partNumber);
+                String requestUrl = uploadConfig.getDomain() + uploadConfig.getUrl().getUpload();
                 HttpClientUtil.uploadPart(requestUrl, filePath, partNumber, uploadConfig.getPartSize(),
                         mediumID, uploadConfig.getAppid(), accessToken);
             } catch (Exception e) {

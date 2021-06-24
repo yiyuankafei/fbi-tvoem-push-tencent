@@ -54,13 +54,16 @@ public class HttpClientUtil {
             bos.write(bytes, 0, length);
         }
 
+        byte[] partBytes = bos.toByteArray();
         CloseableHttpClient httpClient = HttpClients.createDefault();
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-        multipartEntityBuilder.addBinaryBody("content", bos.toByteArray(), ContentType.DEFAULT_BINARY, partNumber + "_" + fileName);
+        multipartEntityBuilder.addBinaryBody("content", partBytes, ContentType.DEFAULT_BINARY, partNumber + "_" + fileName);
         multipartEntityBuilder.addPart("appid",new StringBody(appid, ContentType.TEXT_PLAIN));
         multipartEntityBuilder.addPart("accessToken",new StringBody(accessToken, ContentType.TEXT_PLAIN));
         multipartEntityBuilder.addPart("mediumID", new StringBody(String.valueOf(mediumID), ContentType.TEXT_PLAIN));
         multipartEntityBuilder.addPart("partNumber",new StringBody(String.valueOf(partNumber), ContentType.TEXT_PLAIN));
+        multipartEntityBuilder.addPart("blockSize",new StringBody(String.valueOf(partBytes.length), ContentType.TEXT_PLAIN));
+
         HttpEntity entity = multipartEntityBuilder.build();
 
         HttpPost post = new HttpPost(url);
