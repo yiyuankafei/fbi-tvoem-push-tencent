@@ -34,11 +34,11 @@ public class UploadService implements InitializingBean {
      *
      * 刷新token
      */
-    public void refreshToken() {
+    public void refreshToken() throws Exception {
         AccessTokenRequest request = new AccessTokenRequest();
         request.setAppid(uploadConfig.getAppid());
         request.setEncryptionKey(uploadConfig.getEncryptionKey());
-        AccessTokenResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getMethod().getGetToken(), AccessTokenResponse.class);
+        AccessTokenResponse result = HttpClientUtil.exec(request, uploadConfig.getDomain() + uploadConfig.getMethod().getAccessToken(), AccessTokenResponse.class);
         accessToken = result.getAccessToken();
     }
 
@@ -46,7 +46,7 @@ public class UploadService implements InitializingBean {
      *
      * 创建专辑
      */
-    public Integer createAlbum() {
+    public Integer createAlbum() throws Exception {
         CreateAlbumRequest request = new CreateAlbumRequest();
         request.setAppid(uploadConfig.getAppid());
         request.setOperator(uploadConfig.getOperator());
@@ -59,7 +59,7 @@ public class UploadService implements InitializingBean {
      *
      * 初始化上传
      */
-    public Integer initUpload(Integer size, String md5, Integer albumID) {
+    public Integer initUpload(Integer size, String md5, Integer albumID) throws Exception {
         InitUploadRequest request = new InitUploadRequest();
         request.setAppid(uploadConfig.getAppid());
         request.setAccessToken(accessToken);
@@ -93,7 +93,7 @@ public class UploadService implements InitializingBean {
      *
      * 上传完成
      */
-    public void uplpadComplete(Integer mediumID) {
+    public void uplpadComplete(Integer mediumID) throws Exception {
         UploadCompleteRequest request = new UploadCompleteRequest();
         request.setAppid(uploadConfig.getAppid());
         request.setAccessToken(accessToken);
@@ -105,7 +105,7 @@ public class UploadService implements InitializingBean {
      *
      * 添加视频专辑
      */
-    public void addAlbum(AddAlbumRequest request) {
+    public void addAlbum(AddAlbumRequest request) throws Exception {
         request.setAppid(uploadConfig.getAppid());
         request.setAccessToken(accessToken);
         request.setOperator(uploadConfig.getOperator());
@@ -131,7 +131,8 @@ public class UploadService implements InitializingBean {
                         uploadConfig.getAppid(), accessToken, mediumID, partNumber);
                 System.out.println("************************");
                 System.out.println(requestUrl);
-                HttpClientUtil.file(requestUrl, filePath, partNumber, uploadConfig.getPartSize());
+                HttpClientUtil.uploadPart(requestUrl, filePath, partNumber, uploadConfig.getPartSize(),
+                        mediumID, uploadConfig.getAppid(), accessToken);
             } finally {
                 latch.countDown();
             }
@@ -140,7 +141,7 @@ public class UploadService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        refreshToken();
+        //refreshToken();
         log.info("初始化accessToken：" + accessToken);
     }
 }

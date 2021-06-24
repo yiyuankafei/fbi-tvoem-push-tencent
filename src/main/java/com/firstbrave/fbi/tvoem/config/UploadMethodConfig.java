@@ -5,16 +5,11 @@ import lombok.Data;
 @Data
 public class UploadMethodConfig {
 
-    private String getToken;
-
+    private String accessToken;
     private String createAlbum;
-
     private String initUpload;
-
     private String upload;
-
     private String uploadComplete;
-
     private String addAlbum;
 
 }
